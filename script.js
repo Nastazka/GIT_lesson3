@@ -48,3 +48,85 @@ console.log(library.allBooks); // ['Война и мир', 'Идиот', 'Бра
 
 console.log(library.hasBook('Война и мир')); // true
 console.log(library.hasBook('Незнакомка')); // false
+
+
+
+///////////// ЗАДАНИЕ 2 /////////////
+
+const initialData = [
+    {
+        product: "Apple iPhone 13",
+        reviews: [
+            {
+                id: "1",
+                text: "Отличный телефон! Батарея держится долго.",
+            },
+            {
+                id: "2",
+                text: "Камера супер, фото выглядят просто потрясающе.",
+            },
+        ],
+    },
+    {
+        product: "Samsung Galaxy Z Fold 3",
+        reviews: [
+            {
+                id: "3",
+                text: "Интересный дизайн, но дорогой.",
+            },
+        ],
+    },
+    {
+        product: "Sony PlayStation 5",
+        reviews: [
+            {
+                id: "4",
+                text: "Люблю играть на PS5, графика на высоте.",
+            },
+        ],
+    },
+];
+
+const reviewsListEl = document.querySelector('.reviews-list');
+const reviewFormEl = document.querySelector('.review-form');
+
+function addReview(reviewText) {
+    if (reviewText.length < 50 || reviewText.length > 500) {
+        throw new Error('Длина отзыва должна быть от 50 до 500 символов.');
+    }
+
+    const newReviewEl = document.createElement('div');
+    newReviewEl.classList.add('review');
+    newReviewEl.textContent = reviewText;
+
+    reviewsListEl.appendChild(newReviewEl);
+}
+
+reviewFormEl.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const reviewText = event.target.elements.review.value;
+
+    try {
+        addReview(reviewText);
+    } catch (error) {
+        alert(error.message);
+    }
+});
+
+// Загрузка начальных данных
+initialData.forEach((product) => {
+    const productEl = document.createElement('div');
+    productEl.classList.add('product');
+    productEl.innerHTML = <h3>${product.product}</h3>;
+
+    product.reviews.forEach((review) => {
+        const reviewEl = document.createElement('div');
+        reviewEl.classList.add('review');
+        reviewEl.textContent = review.text;
+
+        productEl.appendChild(reviewEl);
+    });
+
+    reviewsListEl.appendChild(productEl);
+});
